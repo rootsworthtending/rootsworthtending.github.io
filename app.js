@@ -186,6 +186,22 @@
     var goalNote = document.querySelector("[data-total-goal]");
     if (goalNote) goalNote.textContent = "Of " + money(data.total.goal) + " listed";
 
+    var fundedCount = 0;
+    data.items.forEach(function (i) { if (i.closed) fundedCount++; });
+    var openCount = data.items.length - fundedCount;
+    var fundedEl = document.querySelector("[data-items-funded]");
+    if (fundedEl) fundedEl.textContent = fundedCount;
+    var openEl = document.querySelector("[data-items-open]");
+    if (openEl) openEl.textContent = openCount + " open for funding";
+
+    var totalPct = data.total.goal > 0 ? Math.round(data.total.raised / data.total.goal * 100) : 0;
+    var totalFill = document.querySelector("[data-total-fill]");
+    if (totalFill) totalFill.style.width = totalPct + "%";
+    var totalBar = document.querySelector("[data-total-bar]");
+    if (totalBar) totalBar.setAttribute("aria-valuenow", totalPct);
+    var totalPctEl = document.querySelector("[data-total-pct]");
+    if (totalPctEl) totalPctEl.textContent = totalPct;
+
     updateBasket();
   }
 
