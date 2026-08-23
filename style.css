@@ -80,6 +80,12 @@ header.hero{border-bottom:1px solid var(--rule-strong);background:var(--paper);}
 .leaving-url{font-family:"IBM Plex Mono",monospace;font-size:.8rem;color:var(--ink-3);word-break:break-all;-webkit-user-select:all;user-select:all;background:var(--surface-2);padding:8px 10px;border-radius:6px;}
 .leaving-acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;}
 .leaving-copied{margin-top:10px;font-size:.85rem;color:var(--accent);min-height:1.2em;}
+.leaving-acts a[data-leaving-go]{font-family:"Public Sans",sans-serif;font-size:16px;font-weight:600;background:var(--accent);color:var(--accent-ink);border:1px solid var(--accent);padding:12px 26px;border-radius:3px;text-decoration:none;text-align:center;transition:background .15s ease;}
+.leaving-acts a[data-leaving-go]:hover{background:var(--accent-hover);border-color:var(--accent-hover);}
+.leaving-acts button.give{background:transparent;color:var(--accent);border-color:var(--rule-strong);}
+.leaving-acts button.give:hover{background:var(--surface-2);border-color:var(--accent);}
+.leaving-acts button[data-close]{border-color:transparent;color:var(--ink-2);}
+.leaving-acts button[data-close]:hover{background:var(--surface-2);border-color:var(--rule);}
 @media (max-width:760px){
   .hero-split{grid-template-columns:1fr;gap:28px;}
   .hero-photo{max-width:420px;}
