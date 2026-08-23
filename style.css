@@ -68,6 +68,8 @@ header.hero{border-bottom:1px solid var(--rule-strong);background:var(--paper);}
 .content-photo img{display:block;width:100%;height:auto;border-radius:6px;
   border:1px solid var(--rule-strong);box-shadow:var(--shadow);}
 .content-photo figcaption{margin-top:10px;font-size:.92rem;color:var(--ink-2);line-height:1.5;}
+.live-note{margin:12px 0 0;font-size:.9rem;color:var(--ink-2);}
+[data-live-note]:empty{display:none;}
 @media (max-width:760px){
   .hero-split{grid-template-columns:1fr;gap:28px;}
   .hero-photo{max-width:420px;}
