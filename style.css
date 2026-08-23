@@ -250,3 +250,18 @@ footer p{margin:0 0 6px;}
   .money .k{flex-basis:100%;padding-top:0;}
   .money li{flex-direction:column;gap:4px;}
 }
+
+
+/* ---- top-of-page: gold payoff, names list, totals bar ---- */
+.gold{color:#7A5709;}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .gold{color:#DFC489;}}
+:root[data-theme="dark"] .gold{color:#DFC489;}
+
+.contents.names{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+.contents.names li{padding:9px 14px;font-size:14px;}
+
+.totalbar{margin-top:16px;border:1px solid var(--rule);background:var(--surface);padding:12px 14px;display:flex;align-items:center;gap:14px;}
+.totalbar-track{flex:1;height:16px;background:var(--accent-soft);border-radius:8px;overflow:hidden;}
+.totalbar-fill{height:100%;width:0%;background:var(--accent);border-radius:8px;transition:width .9s cubic-bezier(.22,.8,.3,1);}
+.totalbar-pct{margin:0;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-2);white-space:nowrap;}
+@media (prefers-reduced-motion: reduce){.totalbar-fill{transition:none;}}
