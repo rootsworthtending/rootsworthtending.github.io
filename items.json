@@ -2,12 +2,12 @@
   "drive": "winter-2026",
   "bags": 96,
   "items": [
-    { "slug": "backpacks",  "goal": 38826, "name": "96 backpacks, 17 inch" },
-    { "slug": "socks",      "goal": 42216, "name": "300 pairs thermal boot socks" },
-    { "slug": "moleskin",   "goal": 51696, "name": "96 packs moleskin blister pads" },
-    { "slug": "antifungal", "goal": 29684, "name": "192 tubes antifungal cream" },
-    { "slug": "barrier",    "goal": 16832, "name": "96 tubes zinc oxide barrier cream" },
-    { "slug": "toothbrush", "goal":  1607, "name": "100 toothbrushes" },
-    { "slug": "headcase",   "goal":  1053, "name": "100 toothbrush head cases" }
+    { "slug": "backpacks",  "goal": 38826, "name": "Backpacks" },
+    { "slug": "socks",      "goal": 42216, "name": "Thermal socks" },
+    { "slug": "moleskin",   "goal": 51696, "name": "Moleskin blister pads" },
+    { "slug": "antifungal", "goal": 29684, "name": "Antifungal cream" },
+    { "slug": "barrier",    "goal": 16832, "name": "Barrier cream" },
+    { "slug": "toothbrush", "goal":  1607, "name": "Toothbrushes" },
+    { "slug": "headcase",   "goal":  1053, "name": "Toothbrush cases" }
   ]
 }
