@@ -64,6 +64,10 @@ header.hero{border-bottom:1px solid var(--rule-strong);background:var(--paper);}
 .hero-photo{margin:0;}
 .hero-photo img{display:block;width:100%;height:auto;border-radius:6px;
   border:1px solid var(--rule-strong);box-shadow:var(--shadow);}
+.content-photo{margin:24px 0 8px;max-width:460px;}
+.content-photo img{display:block;width:100%;height:auto;border-radius:6px;
+  border:1px solid var(--rule-strong);box-shadow:var(--shadow);}
+.content-photo figcaption{margin-top:10px;font-size:.92rem;color:var(--ink-2);line-height:1.5;}
 @media (max-width:760px){
   .hero-split{grid-template-columns:1fr;gap:28px;}
   .hero-photo{max-width:420px;}
