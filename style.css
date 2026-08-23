@@ -59,6 +59,15 @@ nav a:hover,nav a[aria-current]{color:var(--accent);}
 header.hero{border-bottom:1px solid var(--rule-strong);background:var(--paper);}
 .hero-inner{max-width:940px;margin:0 auto;padding:66px 24px 48px;}
 .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);margin:0 0 24px;}
+.hero-split{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;}
+.hero-text{min-width:0;}
+.hero-photo{margin:0;}
+.hero-photo img{display:block;width:100%;height:auto;border-radius:6px;
+  border:1px solid var(--rule-strong);box-shadow:var(--shadow);}
+@media (max-width:760px){
+  .hero-split{grid-template-columns:1fr;gap:28px;}
+  .hero-photo{max-width:420px;}
+}
 h1{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:clamp(2.3rem,5.4vw,3.55rem);
   line-height:1.07;letter-spacing:-.017em;margin:0 0 24px;text-wrap:balance;max-width:22ch;}
 h1.quote{font-style:italic;max-width:20ch;}
