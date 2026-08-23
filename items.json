@@ -8,6 +8,7 @@
     { "slug": "antifungal", "goal": 29684, "name": "Antifungal cream" },
     { "slug": "barrier",    "goal": 16832, "name": "Barrier cream" },
     { "slug": "toothbrush", "goal":  1607, "name": "Toothbrushes" },
-    { "slug": "headcase",   "goal":  1053, "name": "Toothbrush cases" }
+    { "slug": "headcase",   "goal":  1053, "name": "Toothbrush cases" },
+    { "slug": "poncho",     "goal": 36646, "name": "Rain ponchos" }
   ]
 }
