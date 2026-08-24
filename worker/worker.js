@@ -236,21 +236,16 @@ function snapshot(items, raised) {
 const TERMS = [
   "Every price here is the item, its shipping, and the card fee.",
   "Roots Worth Tending is not a registered 501(c)(3). Your contribution is not tax-deductible.",
-  "On November 3rd donations close. The last item is covered."
+  "On November 3rd donations close. Unfinished items will be allocated top down, unless you select refund in the drop down at checkout. The last item is covered."
 ];
 
 // Stripe rejects the whole session if this message runs past 500 characters, which
 // would take checkout down. If the terms grow, the confirmation line goes first.
-function payMessage(flow) {
-  const chose = flow === "refund"
-    ? "You chose: refund it to me."
-    : "You chose: pay for the next item.";
-  const full = TERMS.concat([chose]).join("\n\n");
-  if (full.length <= 500) return full;
+function payMessage() {
   return TERMS.join("\n\n").slice(0, 500);
 }
 
-async function createSession(env, basket, overflow) {
+async function createSession(env, basket) {
   if (!Array.isArray(basket) || !basket.length) {
     return json({ error: "Nothing was chosen to fund." }, 400);
   }
@@ -306,12 +301,6 @@ async function createSession(env, basket, overflow) {
   const metadata = {};
   lines.forEach(function (l) { metadata["i_" + l.slug] = String(l.cents); });
 
-  // The donor's standing answer for money that can no longer go where they chose:
-  // an item that fills before this payment lands, and anything still unfinished on
-  // November 3rd. Recorded on the PaymentIntent so it is readable at refund time.
-  const flow = overflow === "refund" ? "refund" : "next";
-  metadata.overflow = flow;
-
   const session = await stripe(env, "POST", "checkout/sessions", {
     mode: "payment",
     submit_type: "donate",
@@ -333,8 +322,23 @@ async function createSession(env, basket, overflow) {
     },
     metadata: metadata,
     custom_text: {
-      submit: { message: payMessage(flow) }
-    }
+      submit: { message: payMessage() }
+    },
+    // The choice belongs here, where the donor is thinking about paying, rather
+    // than on the page where they are still deciding what to fund. Unanswered
+    // means allocate, so it is optional on purpose.
+    custom_fields: [{
+      key: "overflow",
+      label: { type: "custom", custom: "If your money cannot go to the item you picked" },
+      type: "dropdown",
+      optional: true,
+      dropdown: {
+        options: [
+          { label: "Allocate it top down", value: "next" },
+          { label: "Refund it to me", value: "refund" }
+        ]
+      }
+    }]
   });
 
   return json({ url: session.url, total: total, lines: lines });
@@ -353,6 +357,26 @@ async function createSession(env, basket, overflow) {
 
 const SETTLED = "settled";
 const CLOSED = "closed";
+
+// The donor answers on the checkout screen, so the answer lands on the Checkout
+// Session and not on the payment. Resolve it once and write it onto the payment,
+// where settlement and the close both look for it. Anything unanswered or
+// unreadable means the default: allocate it, do not refund.
+async function resolveOverflow(env, pi) {
+  const md = pi.metadata || {};
+  if (md.overflow === "refund" || md.overflow === "next") return md.overflow;
+  try {
+    const list = await stripe(env, "GET",
+      "checkout/sessions?limit=1&payment_intent=" + encodeURIComponent(pi.id));
+    const s = list.data && list.data[0];
+    for (const f of ((s && s.custom_fields) || [])) {
+      if (f.key === "overflow" && f.dropdown && f.dropdown.value === "refund") return "refund";
+    }
+  } catch (err) {
+    // No session, or Stripe was unhappy. Fall through to the default.
+  }
+  return "next";
+}
 
 function overflowOf(pi) {
   return ((pi.metadata || {}).overflow === "refund") ? "refund" : "next";
@@ -421,6 +445,7 @@ async function settlePayment(env, piId, dryRun) {
   });
   const others = totalsFrom(earlier);
   const mine = keptOf(pi);
+  const flow = await resolveOverflow(env, pi);
 
   // Keep what still fits where it was aimed; everything else is spare.
   const net = {};
@@ -437,11 +462,11 @@ async function settlePayment(env, piId, dryRun) {
 
   if (spare <= 0) {
     if (!dryRun) await stripe(env, "POST", "payment_intents/" + encodeURIComponent(pi.id),
-      { metadata: { settled: "1" } });
+      { metadata: { settled: "1", overflow: flow } });
     return { id: pi.id, did: "nothing", spare: 0 };
   }
 
-  if (overflowOf(pi) === "next") {
+  if (flow === "next") {
     // Fill the top-most items that still have room, in catalog order.
     let left = spare;
     for (const item of items) {
@@ -454,7 +479,7 @@ async function settlePayment(env, piId, dryRun) {
       left -= put;
     }
     if (left <= 0) {
-      const out = await applyNet(env, pi, net, null, { settled: "1" }, dryRun);
+      const out = await applyNet(env, pi, net, null, { settled: "1", overflow: flow }, dryRun);
       return { id: pi.id, did: "rolled", moved: spare, refunded: 0, plan: out.metadata };
     }
     // Everything is funded: there is nowhere for the rest to go but back.
@@ -466,11 +491,11 @@ async function settlePayment(env, piId, dryRun) {
       give[slug] = c; owed -= c;
       net[slug] = Math.max(0, (net[slug] || 0));
     }
-    const out2 = await applyNet(env, pi, net, give, { settled: "1" }, dryRun);
+    const out2 = await applyNet(env, pi, net, give, { settled: "1", overflow: flow }, dryRun);
     return { id: pi.id, did: "rolled and refunded the rest", moved: spare - left, refunded: out2.refund };
   }
 
-  const out3 = await applyNet(env, pi, net, spareBy, { settled: "1" }, dryRun);
+  const out3 = await applyNet(env, pi, net, spareBy, { settled: "1", overflow: flow }, dryRun);
   return { id: pi.id, did: "refunded", refunded: out3.refund };
 }
 
@@ -665,7 +690,7 @@ export default {
         const body = await request.json();
         const basket = body && body.items ? body.items
           : (body && body.item ? [{ item: body.item, amount: body.amount }] : null);
-        return await createSession(env, basket, body && body.overflow);
+        return await createSession(env, basket);
       }
 
       return json({ error: "Not found." }, 404);
