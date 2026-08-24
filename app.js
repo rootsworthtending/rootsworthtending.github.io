@@ -294,17 +294,12 @@
     var msg = document.createElement("p");
     msg.textContent = "Your gift today becomes something someone will hold this winter.";
 
-    var sig = document.createElement("p");
-    sig.className = "thanks-sig";
-    sig.textContent = "Michael";
-
     var note = document.createElement("p");
     note.className = "thanks-note";
     note.textContent = "Your contribution is already counted in the amounts below, and Stripe has emailed your receipt.";
 
     box.appendChild(h);
     box.appendChild(msg);
-    box.appendChild(sig);
     box.appendChild(note);
     wrap.insertBefore(box, wrap.firstChild);
     box.focus();
@@ -350,9 +345,9 @@
         // The label only appears if there is something under it, so an item with no
         // fact written yet leaves no empty heading behind.
         if (shown) {
-          var sig = box.querySelector(".thanks-sig");
-          box.insertBefore(label, sig);
-          box.insertBefore(list, sig);
+          var note = box.querySelector(".thanks-note");
+          box.insertBefore(label, note);
+          box.insertBefore(list, note);
         }
       })
       .catch(function () {});
