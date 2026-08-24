@@ -636,7 +636,17 @@ export default {
         const id = obj.payment_intent
           || (typeof obj.id === "string" && obj.id.slice(0, 3) === "pi_" ? obj.id : null);
         if (!id) return json({ ok: true, ignored: "no payment id in this event" });
-        return json(await settlePayment(env, id, false));
+        try {
+          return json(await settlePayment(env, id, false));
+        } catch (err) {
+          // A payment Stripe cannot resolve is never going to resolve, so answer
+          // 200 and let it go. Anything else is treated as temporary and left to
+          // fail, which is what makes Stripe try again.
+          if (/No such payment_intent/i.test(String(err.message || err))) {
+            return json({ ok: true, ignored: "unknown payment", id: id });
+          }
+          throw err;
+        }
       }
 
       // Read-only. What the close would do if it ran now, in totals only.
