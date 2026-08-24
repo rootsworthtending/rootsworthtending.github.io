@@ -1,0 +1,47 @@
+name: Accessibility check
+
+# What a screen reader would announce for every link and button on the site, and
+# what is wrong with it. The report is the point: it is uploaded as an artifact
+# named accessibility-report, as plain text, readable top to bottom.
+#
+# This reads and reports. It never writes to the repo.
+#
+# It fails the job on two things only: a control with no accessible name at all,
+# and several controls sharing one name while doing different things. Everything
+# else is reported without failing.
+
+on: push
+
+permissions:
+  contents: read
+
+jobs:
+  controls:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # The check has to see the page after JavaScript has built it. A parse of the
+      # HTML source finds none of the amount fields or the Fund the rest buttons on
+      # the drive page, which is the population most likely to be wrong.
+      - name: Install the headless browser
+        run: |
+          npm install --no-save playwright@1
+          npx playwright install --with-deps chromium
+
+      - name: Check the links and buttons
+        run: node tools/a11y-controls.mjs --out a11y-report.txt
+
+      # Uploaded whether the check passed or failed, because the run that fails is
+      # the one whose report is worth reading.
+      - name: Upload the report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessibility-report
+          path: a11y-report.txt
+          if-no-files-found: error
