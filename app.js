@@ -272,15 +272,42 @@
     updateBasket();
   }
 
+  // Shown when a visitor comes back from paying. It sits at the top of the page
+  // rather than down beside the item list, and focus moves to it, so it is met
+  // rather than missed: a screen reader lands on it, and everyone else sees it
+  // without scrolling. A message inserted quietly into a live region on load
+  // tends to be announced by nobody at all.
   function thankYou() {
     if (!/[?&]funded=/.test(window.location.search)) return;
-    var head = document.getElementById("manifest-h");
-    if (!head) return;
-    var p = document.createElement("p");
-    p.className = "thanks";
-    p.setAttribute("role", "status");
-    p.textContent = "Thank you. Your contribution is recorded, and the amounts below already include it.";
-    head.parentNode.insertBefore(p, head.nextSibling);
+    var wrap = document.querySelector(".wrap");
+    if (!wrap) return;
+
+    var box = document.createElement("section");
+    box.className = "thanks";
+    box.setAttribute("tabindex", "-1");
+    box.setAttribute("aria-labelledby", "thanks-h");
+
+    var h = document.createElement("h2");
+    h.id = "thanks-h";
+    h.textContent = "Thank you.";
+
+    var msg = document.createElement("p");
+    msg.textContent = "What you gave cost you part of your life to earn, and you spent it on someone you will never meet. In November it becomes something a person can hold.";
+
+    var sig = document.createElement("p");
+    sig.className = "thanks-sig";
+    sig.textContent = "Michael";
+
+    var note = document.createElement("p");
+    note.className = "thanks-note";
+    note.textContent = "Your contribution is already counted in the amounts below, and Stripe has emailed your receipt.";
+
+    box.appendChild(h);
+    box.appendChild(msg);
+    box.appendChild(sig);
+    box.appendChild(note);
+    wrap.insertBefore(box, wrap.firstChild);
+    box.focus();
   }
 
   buildFields();
