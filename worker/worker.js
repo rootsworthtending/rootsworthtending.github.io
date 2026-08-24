@@ -317,7 +317,11 @@ async function createSession(env, basket) {
       };
     }),
     payment_intent_data: {
-      description: "Roots Worth Tending - winter bags (" + lines.length + " item" + (lines.length === 1 ? "" : "s") + ")",
+      // This line is what a donor reads on the Stripe receipt, so it says thank you
+      // rather than naming a transaction. It still names the drive and the count so
+      // the payment stays identifiable in the Stripe dashboard.
+      description: "Winter backpacks 2026, " + lines.length + " item" + (lines.length === 1 ? "" : "s")
+        + " - thank you for this. Michael, Roots Worth Tending",
       metadata: metadata
     },
     metadata: metadata,
