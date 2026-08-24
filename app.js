@@ -220,6 +220,11 @@
     if (el) el.textContent = msg || "";
   }
 
+  function overflowChoice() {
+    var sel = document.getElementById("overflow");
+    return sel && sel.value === "refund" ? "refund" : "next";
+  }
+
   function pay() {
     var lines = basketLines();
     if (!lines.length) return;
@@ -231,7 +236,7 @@
     fetch(API + "/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: lines })
+      body: JSON.stringify({ items: lines, overflow: overflowChoice() })
     })
       .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
       .then(function (res) {
