@@ -210,8 +210,7 @@ function snapshot(items, raised) {
 const TERMS = [
   "Every price here is the item, its shipping, and the card fee.",
   "Roots Worth Tending is not a registered 501(c)(3). Your contribution is not tax-deductible.",
-  "If an item fills before your payment lands, that money goes to the top unfinished item — unless you chose refund.",
-  "On November 3rd donations close. Money left on unfinished items finishes them from the top down, or comes back to you if you chose refund. The last item is covered."
+  "On November 3rd donations close. The last item is covered."
 ];
 
 // Stripe rejects the whole session if this message runs past 500 characters, which
@@ -219,7 +218,7 @@ const TERMS = [
 function payMessage(flow) {
   const chose = flow === "refund"
     ? "You chose: refund it to me."
-    : "You chose: move it to the top unfinished item.";
+    : "You chose: pay for the next item.";
   const full = TERMS.concat([chose]).join("\n\n");
   if (full.length <= 500) return full;
   return TERMS.join("\n\n").slice(0, 500);
