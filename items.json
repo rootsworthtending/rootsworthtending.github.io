@@ -2,14 +2,14 @@
   "drive": "winter-2026",
   "bags": 96,
   "items": [
-    { "slug": "backpacks",  "goal": 38826, "name": "Backpacks" },
     { "slug": "socks",      "goal": 42216, "name": "Thermal socks" },
+    { "slug": "poncho",     "goal": 36646, "name": "Rain ponchos" },
     { "slug": "beanie",     "goal": 12420, "name": "Beanies" },
+    { "slug": "backpacks",  "goal": 38826, "name": "Backpacks" },
     { "slug": "moleskin",   "goal": 51696, "name": "Moleskin blister pads" },
     { "slug": "antifungal", "goal": 29684, "name": "Antifungal cream" },
     { "slug": "barrier",    "goal": 16832, "name": "Barrier cream" },
     { "slug": "toothbrush", "goal":  1607, "name": "Toothbrushes" },
-    { "slug": "headcase",   "goal":  1053, "name": "Toothbrush cases" },
-    { "slug": "poncho",     "goal": 36646, "name": "Rain ponchos" }
+    { "slug": "headcase",   "goal":  1053, "name": "Toothbrush cases" }
   ]
 }
