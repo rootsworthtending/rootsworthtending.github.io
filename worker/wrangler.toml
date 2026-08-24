@@ -1,3 +1,9 @@
 name = "roots-funding"
 main = "worker.js"
 compatibility_date = "2026-08-22"
+
+# The November close. 08:00 UTC is midnight Pacific, so this first fires at the
+# end of November 3rd. It repeats for a week because the close is idempotent:
+# a failed run is picked up the next day, a finished one makes the rest no-ops.
+[triggers]
+crons = ["0 8 4-10 11 *"]
