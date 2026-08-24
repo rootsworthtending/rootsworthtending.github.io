@@ -304,7 +304,10 @@ async function createSession(env, basket) {
   const session = await stripe(env, "POST", "checkout/sessions", {
     mode: "payment",
     submit_type: "donate",
-    success_url: SITE + "/winter-2026.html?funded=1",
+    // Naming the funded items in the return URL lets the page say something about
+    // each of them. Nothing depends on it: the page reads it if it is there.
+    success_url: SITE + "/winter-2026.html?funded=1&i="
+      + lines.map(function (l) { return l.slug; }).join(","),
     cancel_url: SITE + "/winter-2026.html",
     line_items: lines.map(function (l) {
       return {
