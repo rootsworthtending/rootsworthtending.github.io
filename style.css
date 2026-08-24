@@ -206,6 +206,7 @@ body.has-basket{padding-bottom:104px;}
   color:var(--ink);font-size:16px;border-radius:0 3px 3px 0;}
 .thanks h2{margin:0 0 10px;}
 .thanks p{margin:0 0 10px;}
+.thanks-impact{margin:0 0 6px;font-weight:600;}
 .thanks-facts{margin:0 0 12px;padding:0 0 0 20px;}
 .thanks-facts li{margin:0 0 6px;}
 .thanks-facts b{font-weight:600;}
