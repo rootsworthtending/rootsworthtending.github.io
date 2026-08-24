@@ -292,7 +292,7 @@
     h.textContent = "Thank you.";
 
     var msg = document.createElement("p");
-    msg.textContent = "What you gave cost you part of your life to earn, and you spent it on someone you will never meet. In November it becomes something a person can hold.";
+    msg.textContent = "In November this becomes something a person can hold.";
 
     var sig = document.createElement("p");
     sig.className = "thanks-sig";
@@ -308,6 +308,44 @@
     box.appendChild(note);
     wrap.insertBefore(box, wrap.firstChild);
     box.focus();
+    addFacts(box);
+  }
+
+  // What was funded is named in the return URL, so the page can say a word about
+  // each one. The words live in items.json beside the item as "fact", which means
+  // writing one later is an edit to that file and nothing else: the Worker ignores
+  // the field entirely. An item with no fact says nothing, and any failure here
+  // leaves the thank you exactly as it was.
+  function addFacts(box) {
+    var m = /[?&]i=([a-z0-9,-]+)/.exec(window.location.search);
+    if (!m) return;
+    var want = m[1].split(",");
+
+    fetch("items.json", { cache: "no-store" })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var by = {};
+        (data.items || []).forEach(function (i) { by[i.slug] = i; });
+
+        var list = document.createElement("ul");
+        list.className = "thanks-facts";
+        var shown = 0;
+
+        want.forEach(function (slug) {
+          var it = by[slug];
+          if (!it || typeof it.fact !== "string" || !it.fact) return;
+          var li = document.createElement("li");
+          var name = document.createElement("b");
+          name.textContent = it.name;
+          li.appendChild(name);
+          li.appendChild(document.createTextNode(" " + it.fact));
+          list.appendChild(li);
+          shown++;
+        });
+
+        if (shown) box.insertBefore(list, box.querySelector(".thanks-sig"));
+      })
+      .catch(function () {});
   }
 
   buildFields();
