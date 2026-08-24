@@ -205,7 +205,27 @@ function snapshot(items, raised) {
 
 // --- Checkout ---
 
-async function createSession(env, basket) {
+// The four terms lines, word for word the same as the ones on the campaign page.
+// Change one and change the other, or a donor is shown two different sets of terms.
+const TERMS = [
+  "Every price here is the item, its shipping, and the card fee.",
+  "Roots Worth Tending is not a registered 501(c)(3). Your contribution is not tax-deductible.",
+  "If an item fills before your payment lands, that money goes to the top unfinished item — unless you chose refund.",
+  "On November 3rd donations close. Money left on unfinished items finishes them from the top down, or comes back to you if you chose refund. The last item is covered."
+];
+
+// Stripe rejects the whole session if this message runs past 500 characters, which
+// would take checkout down. If the terms grow, the confirmation line goes first.
+function payMessage(flow) {
+  const chose = flow === "refund"
+    ? "You chose: refund it to me."
+    : "You chose: move it to the top unfinished item.";
+  const full = TERMS.concat([chose]).join("\n\n");
+  if (full.length <= 500) return full;
+  return TERMS.join("\n\n").slice(0, 500);
+}
+
+async function createSession(env, basket, overflow) {
   if (!Array.isArray(basket) || !basket.length) {
     return json({ error: "Nothing was chosen to fund." }, 400);
   }
@@ -261,6 +281,12 @@ async function createSession(env, basket) {
   const metadata = {};
   lines.forEach(function (l) { metadata["i_" + l.slug] = String(l.cents); });
 
+  // The donor's standing answer for money that can no longer go where they chose:
+  // an item that fills before this payment lands, and anything still unfinished on
+  // November 3rd. Recorded on the PaymentIntent so it is readable at refund time.
+  const flow = overflow === "refund" ? "refund" : "next";
+  metadata.overflow = flow;
+
   const session = await stripe(env, "POST", "checkout/sessions", {
     mode: "payment",
     submit_type: "donate",
@@ -282,24 +308,8 @@ async function createSession(env, basket) {
     },
     metadata: metadata,
     custom_text: {
-      submit: {
-        message: "Every price here is the item, its shipping, and the card fee.\n\n"
-          + "Roots Worth Tending is not a registered 501(c)(3). Your contribution is not tax-deductible.\n\n"
-          + "If an item is overfunded for any reason, your contribution rolls to the next item — unless you choose refund at checkout.\n\n"
-          + "On November 3rd donations close. Anything still open rolls to paying the top unfinished item, or is refunded if that’s what you choose. The last item is covered."
-      }
-    },
-    custom_fields: [{
-      key: "overflow",
-      label: { type: "custom", custom: "If an item overfills, or is still open on Nov 3" },
-      type: "dropdown",
-      dropdown: {
-        options: [
-          { label: "Move it to the next item on the list", value: "next" },
-          { label: "Refund that part to me", value: "refund" }
-        ]
-      }
-    }]
+      submit: { message: payMessage(flow) }
+    }
   });
 
   return json({ url: session.url, total: total, lines: lines });
@@ -335,7 +345,7 @@ export default {
         const body = await request.json();
         const basket = body && body.items ? body.items
           : (body && body.item ? [{ item: body.item, amount: body.amount }] : null);
-        return await createSession(env, basket);
+        return await createSession(env, basket, body && body.overflow);
       }
 
       return json({ error: "Not found." }, 404);
