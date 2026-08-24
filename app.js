@@ -292,7 +292,7 @@
     h.textContent = "Thank you.";
 
     var msg = document.createElement("p");
-    msg.textContent = "In November this becomes something a person can hold.";
+    msg.textContent = "Your gift today becomes something someone will hold this winter.";
 
     var sig = document.createElement("p");
     sig.className = "thanks-sig";
@@ -327,6 +327,10 @@
         var by = {};
         (data.items || []).forEach(function (i) { by[i.slug] = i; });
 
+        var label = document.createElement("p");
+        label.className = "thanks-impact";
+        label.textContent = "Your impact:";
+
         var list = document.createElement("ul");
         list.className = "thanks-facts";
         var shown = 0;
@@ -343,7 +347,13 @@
           shown++;
         });
 
-        if (shown) box.insertBefore(list, box.querySelector(".thanks-sig"));
+        // The label only appears if there is something under it, so an item with no
+        // fact written yet leaves no empty heading behind.
+        if (shown) {
+          var sig = box.querySelector(".thanks-sig");
+          box.insertBefore(label, sig);
+          box.insertBefore(list, sig);
+        }
       })
       .catch(function () {});
   }
