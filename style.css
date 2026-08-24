@@ -185,10 +185,6 @@ input.amount[aria-invalid]{color:#B0301F;}
 :root:not([data-theme="light"]) input.amount[aria-invalid]{color:#FF9B8A;}
 :root[data-theme="dark"] input.amount[aria-invalid]{color:#FF9B8A;}
 
-.terms .choice{margin:18px 0 0;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;}
-.terms .choice label{color:var(--ink-2);}
-.terms select{font-family:"Public Sans","Helvetica Neue",Arial,sans-serif;font-size:15.5px;color:var(--ink);
-  background:var(--surface);border:1px solid var(--rule-strong);border-radius:3px;padding:10px 12px;}
 .basket{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);
   border-top:1px solid var(--rule-strong);box-shadow:0 -2px 18px rgba(16,28,24,.10);}
 :root:not([data-theme="light"]) .basket{box-shadow:0 -2px 18px rgba(0,0,0,.45);}
