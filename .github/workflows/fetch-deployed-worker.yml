@@ -1,0 +1,39 @@
+name: Fetch deployed Worker source
+
+# Read-only with respect to Cloudflare: downloads the currently deployed
+# roots-funding script so it can be diffed against worker/worker.js before
+# any deploy replaces it. Never deploys anything.
+#
+# Manual dispatch only, on purpose. Do not add push triggers.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download the deployed script from Cloudflare
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          mkdir -p deployed-snapshot
+          curl -sS -f -D deployed-snapshot/headers.txt \
+            -H "Authorization: Bearer $CF_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/51901b6628d7cf5fd26f3c4c513bca2c/workers/scripts/roots-funding/content" \
+            -o deployed-snapshot/worker.js
+          wc -c deployed-snapshot/worker.js
+
+      - name: Push the snapshot to the deployed-snapshot branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git switch -c deployed-snapshot
+          git add deployed-snapshot
+          git commit -m "Snapshot of the deployed roots-funding Worker source"
+          git push -f origin deployed-snapshot
