@@ -216,8 +216,14 @@
       <h2 id="terms-h" class="skip-heading" style="position:absolute;left:-9999px;">Before you contribute</h2>
       <p>Every price here is the item, its shipping, and the card fee.</p>
       <p>Roots Worth Tending is not a registered 501(c)(3). Your contribution is not tax-deductible.</p>
-      <p>If an item is overfunded for any reason, your contribution rolls to the next item &mdash; unless you choose refund at checkout.</p>
-      <p>On November 3rd donations close. Anything still open rolls to paying the top unfinished item, or is refunded if that&rsquo;s what you choose. The last item is covered.</p>
+      <p>On November 3rd donations close. The last item is covered.</p>
+      <p class="choice">
+        <label for="overflow">If your money can&rsquo;t go to the item you picked</label>
+        <select id="overflow" name="overflow">
+          <option value="next" selected>Pay for the next item</option>
+          <option value="refund">Refund it to me</option>
+        </select>
+      </p>
     </section>
 
     <div class="basket" id="basket" hidden>
