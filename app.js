@@ -44,12 +44,17 @@
       input.min = "1";
       input.step = "1";
       input.inputMode = "decimal";
-      input.setAttribute("aria-label", "Amount in dollars toward " + name);
+      // The item comes first in both of these. Tabbing down a column of identical
+      // openings means holding "which one is this?" in your head until the end of
+      // the sentence; leading with the item answers it on the first word. The
+      // visible text stays short because the card heading already says the name.
+      input.setAttribute("aria-label", name + ", amount in dollars");
 
       var rest = document.createElement("button");
       rest.type = "button";
       rest.className = "rest-btn";
       rest.textContent = "Fund the rest";
+      rest.setAttribute("aria-label", name + ", fund the rest");
 
       wrap.appendChild(sign);
       wrap.appendChild(input);
@@ -176,7 +181,11 @@
       } else {
         art.removeAttribute("data-closed");
         if (input) { input.disabled = false; input.max = String(Math.ceil(it.remaining / 100)); }
-        if (restBtn) { restBtn.disabled = false; restBtn.textContent = "Fund the rest, " + money(it.remaining); }
+        if (restBtn) {
+          restBtn.disabled = false;
+          restBtn.textContent = "Fund the rest, " + money(it.remaining);
+          restBtn.setAttribute("aria-label", it.name + ", fund the rest, " + money(it.remaining));
+        }
         if (any) any.textContent = "Any amount up to " + money(it.remaining);
       }
     });
