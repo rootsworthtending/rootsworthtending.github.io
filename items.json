@@ -14,6 +14,7 @@
     { "slug": "wipes",      "goal":  8785, "name": "Wet wipes" },
     { "slug": "toothbrush", "goal":  1607, "name": "Toothbrushes" },
     { "slug": "headcase",   "goal":  1053, "name": "Toothbrush cases" },
+    { "slug": "lipbalm",    "goal":  6520, "name": "Lip balm" },
     { "slug": "moleskin",   "goal": 51696, "name": "Moleskin blister pads" }
   ]
 }
