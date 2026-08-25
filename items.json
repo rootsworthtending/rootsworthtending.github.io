@@ -8,6 +8,7 @@
     { "slug": "beanie",     "goal": 12420, "name": "Beanies" },
     { "slug": "bivvy",      "goal": 23203, "name": "Bivvies" },
     { "slug": "underwear",  "goal": 31730, "name": "Underwear" },
+    { "slug": "gloves",     "goal":  9094, "name": "Gloves" },
     { "slug": "moleskin",   "goal": 51696, "name": "Moleskin blister pads" },
     { "slug": "antifungal", "goal": 29684, "name": "Antifungal cream" },
     { "slug": "barrier",    "goal": 16832, "name": "Barrier cream" },
