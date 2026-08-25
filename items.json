@@ -11,6 +11,7 @@
     { "slug": "gloves",     "goal":  9094, "name": "Gloves" },
     { "slug": "antifungal", "goal": 29684, "name": "Antifungal cream" },
     { "slug": "barrier",    "goal": 16832, "name": "Barrier cream" },
+    { "slug": "wipes",      "goal":  8785, "name": "Wet wipes" },
     { "slug": "toothbrush", "goal":  1607, "name": "Toothbrushes" },
     { "slug": "headcase",   "goal":  1053, "name": "Toothbrush cases" },
     { "slug": "moleskin",   "goal": 51696, "name": "Moleskin blister pads" }
