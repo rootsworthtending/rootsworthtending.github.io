@@ -71,6 +71,7 @@
       input.addEventListener("input", function () {
         art.removeAttribute("data-err");
         closeChooser();
+        clearGeneral();
         checkOne(art); updateBasket();
       });
       input.addEventListener("blur", function () { checkOne(art); updateBasket(); });
@@ -95,12 +96,138 @@
         var it = state[art.getAttribute("data-slug")];
         if (!it || it.closed) return;
         art.removeAttribute("data-err");
+        clearGeneral();
         input.value = String(it.remaining / 100);
         checkOne(art);
         updateBasket();
         input.focus();
       });
     });
+  }
+
+  // The way in for someone who wants to give without choosing. The field is
+  // not an item and has no slug: it types into the item fields below, top
+  // open item first, so by the time money moves it is ordinary per-item
+  // amounts and the Worker, the overflow choice, refunds and the close never
+  // see it. Each item's dollar minimum is kept by moving up to a dollar back
+  // from the item before it; whatever cannot fit is left out and said.
+  function buildGeneral() {
+    var manifest = document.querySelector("div.manifest");
+    if (!manifest || document.getElementById("general-amount")) return;
+
+    var box = document.createElement("section");
+    box.className = "general-give";
+
+    var h = document.createElement("h3");
+    h.textContent = "Just give";
+
+    var note = document.createElement("p");
+    note.className = "any";
+    note.textContent = "Fills the list from the top.";
+
+    var actions = document.createElement("div");
+    actions.className = "actions";
+
+    var wrap = document.createElement("span");
+    wrap.className = "amtwrap";
+
+    var sign = document.createElement("span");
+    sign.className = "amtsign";
+    sign.setAttribute("aria-hidden", "true");
+    sign.textContent = "$";
+
+    var input = document.createElement("input");
+    input.className = "amount";
+    input.id = "general-amount";
+    input.type = "number";
+    input.min = "1";
+    input.step = "1";
+    input.inputMode = "decimal";
+    input.enterKeyHint = "go";
+    input.setAttribute("aria-label", "Just give, amount in dollars");
+
+    var status = document.createElement("p");
+    status.className = "status";
+    status.setAttribute("role", "status");
+
+    wrap.appendChild(sign);
+    wrap.appendChild(input);
+    actions.appendChild(wrap);
+    box.appendChild(h);
+    box.appendChild(note);
+    box.appendChild(actions);
+    box.appendChild(status);
+    manifest.insertBefore(box, manifest.firstChild);
+
+    input.addEventListener("input", function () {
+      closeChooser();
+      var cents = centsIn(input);
+      var res = allocate(cents);
+      updateBasket();
+      if (!cents) { genSay(""); return; }
+      if (!res.live) {
+        genSay(Object.keys(state).length ? "Everything is funded." :
+          "Live amounts are not loading right now. Choose an item below.");
+        return;
+      }
+      var msg = res.parts.map(function (p) { return p.name + " " + money(p.cents); }).join(", ") + ".";
+      if (res.left > 0) msg += " The last " + money(res.left) + " does not fit.";
+      genSay(msg);
+    });
+
+    input.addEventListener("keydown", function (e) {
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+      updateBasket();
+      var bar = document.getElementById("basket");
+      var btn = document.getElementById("basket-pay");
+      if (!bar || bar.hidden || !btn || btn.disabled) return;
+      if (TOUCH) openChooser(box, input);
+      else btn.focus();
+    });
+  }
+
+  function allocate(cents) {
+    var res = { parts: [], left: cents, live: false };
+    itemsOnPage().forEach(function (art) {
+      var input = art.querySelector("input.amount");
+      if (!input || input.disabled) return;
+      input.value = "";
+      input.removeAttribute("aria-invalid");
+      art.removeAttribute("data-err");
+      say(art, "");
+    });
+    if (!cents) { res.left = 0; return res; }
+
+    var open = [];
+    itemsOnPage().forEach(function (art) {
+      var it = state[art.getAttribute("data-slug")];
+      var input = art.querySelector("input.amount");
+      if (it && !it.closed && input && !input.disabled) open.push({ it: it, input: input });
+    });
+    if (!open.length) return res;
+    res.live = true;
+
+    for (var k = 0; k < open.length && res.left > 0; k++) {
+      var take = Math.min(open[k].it.remaining, res.left);
+      var after = res.left - take;
+      if (after > 0 && after < 100 && take - (100 - after) >= 100) take -= (100 - after);
+      if (take < 100 && !(k === 0 && take === res.left)) break;
+      open[k].input.value = String(take / 100);
+      res.parts.push({ name: open[k].it.name, cents: take });
+      res.left -= take;
+    }
+    return res;
+  }
+
+  function genSay(msg) {
+    var el = document.querySelector(".general-give .status");
+    if (el) el.textContent = msg || "";
+  }
+
+  function clearGeneral() {
+    var gen = document.getElementById("general-amount");
+    if (gen && gen.value) { gen.value = ""; genSay(""); }
   }
 
   function checkOne(art) {
@@ -228,6 +355,9 @@
     var openEl = document.querySelector("[data-items-open]");
     if (openEl) openEl.textContent = openCount + " open for funding";
 
+    var gen = document.getElementById("general-amount");
+    if (gen) gen.disabled = openCount === 0;
+
     var totalPct = data.total.goal > 0 ? Math.round(data.total.raised / data.total.goal * 100) : 0;
     var totalFill = document.querySelector("[data-total-fill]");
     if (totalFill) totalFill.style.width = totalPct + "%";
@@ -354,6 +484,8 @@
 
   function clearAll() {
     closeChooser();
+    var gen = document.getElementById("general-amount");
+    if (gen) { gen.value = ""; genSay(""); }
     itemsOnPage().forEach(function (art) {
       var input = art.querySelector("input.amount");
       if (input) { input.value = ""; input.removeAttribute("aria-invalid"); }
@@ -446,6 +578,7 @@
   }
 
   buildFields();
+  buildGeneral();
   var payBtn = document.getElementById("basket-pay");
   var clearBtn = document.getElementById("basket-clear");
   if (payBtn) payBtn.addEventListener("click", pay);
