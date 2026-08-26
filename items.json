@@ -14,6 +14,7 @@
     { "slug": "wipes",      "goal":  8785, "name": "Wet wipes" },
     { "slug": "toothbrush", "goal":  1607, "name": "Toothbrushes" },
     { "slug": "headcase",   "goal":  1053, "name": "Toothbrush cases" },
+    { "slug": "toothpaste", "goal":  6655, "name": "Toothpaste" },
     { "slug": "lipbalm",    "goal":  6520, "name": "Lip balm" },
     { "slug": "cycle",      "goal": 11963, "name": "Menstrual cycle support" },
     { "slug": "bottle",     "goal": 18466, "name": "Water bottles" },
