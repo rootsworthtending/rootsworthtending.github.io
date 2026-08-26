@@ -15,8 +15,7 @@
     { "slug": "toothbrush", "goal":  1607, "name": "Toothbrushes" },
     { "slug": "headcase",   "goal":  1053, "name": "Toothbrush cases" },
     { "slug": "lipbalm",    "goal":  6520, "name": "Lip balm" },
-    { "slug": "pads",       "goal":  3450, "name": "Menstrual pads" },
-    { "slug": "overnight",  "goal":  4023, "name": "Overnight pads" },
+    { "slug": "cycle",      "goal": 11963, "name": "Menstrual cycle support" },
     { "slug": "moleskin",   "goal": 51696, "name": "Moleskin blister pads" }
   ]
 }
