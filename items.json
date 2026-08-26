@@ -17,6 +17,7 @@
     { "slug": "lipbalm",    "goal":  6520, "name": "Lip balm" },
     { "slug": "cycle",      "goal": 11963, "name": "Menstrual cycle support" },
     { "slug": "bottle",     "goal": 18466, "name": "Water bottles" },
+    { "slug": "peanut",     "goal": 11447, "name": "Peanut butter" },
     { "slug": "moleskin",   "goal": 51696, "name": "Moleskin blister pads" }
   ]
 }
