@@ -66,6 +66,21 @@
         checkOne(art); updateBasket();
       });
       input.addEventListener("blur", function () { checkOne(art); updateBasket(); });
+      // Enter in an amount field goes to pay. Tab still walks out one stop at a
+      // time; Enter jumps to the contribute button, whose name carries the
+      // total, so the second Enter is an informed one. When there is nothing
+      // payable the button is hidden or dimmed and cannot take focus, so Enter
+      // stays put - and if an amount is wrong, the card's status line has
+      // already said why.
+      input.addEventListener("keydown", function (e) {
+        if (e.key !== "Enter") return;
+        e.preventDefault();
+        checkOne(art);
+        updateBasket();
+        var bar = document.getElementById("basket");
+        var btn = document.getElementById("basket-pay");
+        if (bar && !bar.hidden && btn && !btn.disabled) btn.focus();
+      });
       rest.addEventListener("click", function () {
         var it = state[art.getAttribute("data-slug")];
         if (!it || it.closed) return;
