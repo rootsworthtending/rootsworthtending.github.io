@@ -2,6 +2,11 @@
   var API = "https://roots-funding.evercaregreenroots.workers.dev";
   var state = {};
 
+  // A phone. On a keyboard, leaving the pay button costs one Shift+Tab; on a
+  // phone, focus sent to the bottom of the page costs a long climb back, so
+  // the phone gets a chooser beside the field instead of a jump.
+  var TOUCH = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+
   function money(cents) {
     var s = (Math.round(cents) / 100).toFixed(2).split(".");
     return "$" + s[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "." + s[1];
@@ -61,8 +66,11 @@
       actions.insertBefore(wrap, actions.firstChild);
       actions.insertBefore(rest, wrap.nextSibling);
 
+      input.enterKeyHint = "go";
+
       input.addEventListener("input", function () {
         art.removeAttribute("data-err");
+        closeChooser();
         checkOne(art); updateBasket();
       });
       input.addEventListener("blur", function () { checkOne(art); updateBasket(); });
@@ -79,7 +87,9 @@
         updateBasket();
         var bar = document.getElementById("basket");
         var btn = document.getElementById("basket-pay");
-        if (bar && !bar.hidden && btn && !btn.disabled) btn.focus();
+        if (!bar || bar.hidden || !btn || btn.disabled) return;
+        if (TOUCH) openChooser(art, input);
+        else btn.focus();
       });
       rest.addEventListener("click", function () {
         var it = state[art.getAttribute("data-slug")];
@@ -285,7 +295,65 @@
       });
   }
 
+  // The phone's answer to Enter. The question carries the total, so the choice
+  // is informed where it is made: one swipe to Pay now, two to Continue. It
+  // sits in the card right after the actions row, not floating, so swiping on
+  // from Continue meets the rest of the page in order. Any edit to an amount
+  // makes its total stale, so typing anywhere closes it.
+  function openChooser(art, input) {
+    closeChooser();
+    var total = basketLines().reduce(function (s, l) { return s + l.amount; }, 0);
+
+    var box = document.createElement("div");
+    box.className = "paychooser";
+    box.setAttribute("role", "group");
+    box.setAttribute("aria-labelledby", "paychooser-q");
+
+    var q = document.createElement("p");
+    q.className = "paychooser-q";
+    q.id = "paychooser-q";
+    q.setAttribute("tabindex", "-1");
+    q.textContent = "Contribute " + money(total) + " now?";
+
+    var payNow = document.createElement("button");
+    payNow.type = "button";
+    payNow.className = "give";
+    payNow.textContent = "Pay now";
+
+    var cont = document.createElement("button");
+    cont.type = "button";
+    cont.className = "paychooser-continue";
+    cont.textContent = "Continue";
+
+    box.appendChild(q);
+    box.appendChild(payNow);
+    box.appendChild(cont);
+    var actions = art.querySelector(".actions");
+    actions.parentNode.insertBefore(box, actions.nextSibling);
+
+    payNow.addEventListener("click", function () {
+      closeChooser();
+      input.focus();
+      pay();
+    });
+    cont.addEventListener("click", function () {
+      closeChooser();
+      input.focus();
+    });
+    box.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") { closeChooser(); input.focus(); }
+    });
+
+    q.focus();
+  }
+
+  function closeChooser() {
+    var box = document.querySelector(".paychooser");
+    if (box) box.parentNode.removeChild(box);
+  }
+
   function clearAll() {
+    closeChooser();
     itemsOnPage().forEach(function (art) {
       var input = art.querySelector("input.amount");
       if (input) { input.value = ""; input.removeAttribute("aria-invalid"); }
