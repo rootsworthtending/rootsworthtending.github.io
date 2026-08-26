@@ -143,9 +143,10 @@ h2{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:1.9rem;letter-
 .contents .what{font-size:15.5px;line-height:1.45;}
 
 .manifest{display:flex;flex-direction:column;gap:14px;}
-article.item{background:var(--surface);border:1px solid var(--rule);box-shadow:var(--shadow);padding:24px 26px 22px;}
+article.item,.general-give{background:var(--surface);border:1px solid var(--rule);box-shadow:var(--shadow);padding:24px 26px 22px;}
 .item-head{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;justify-content:space-between;}
-article.item h3{font-family:Newsreader,Georgia,serif;font-weight:600;font-size:1.32rem;letter-spacing:-.005em;margin:0;line-height:1.25;}
+article.item h3,.general-give h3{font-family:Newsreader,Georgia,serif;font-weight:600;font-size:1.32rem;letter-spacing:-.005em;margin:0;line-height:1.25;}
+.general-give .any{margin:4px 0 0;}
 .goal{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-size:1.2rem;font-weight:500;white-space:nowrap;}
 .spec{font-family:"IBM Plex Mono",monospace;font-size:13.5px;line-height:1.65;color:var(--ink-2);margin:12px 0 0;}
 .desc{margin:8px 0 2px;line-height:1.55;color:var(--ink);}
@@ -258,7 +259,7 @@ footer p{margin:0 0 6px;}
   .hero-inner{padding:40px 20px 32px;}
   .wrap{padding:0 20px 72px;}
   .effort{padding:22px 20px;}
-  article.item{padding:20px 20px 18px;}
+  article.item,.general-give{padding:20px 20px 18px;}
   .steps li{flex-direction:column;gap:8px;}
   .money .k{flex-basis:100%;padding-top:0;}
   .money li{flex-direction:column;gap:4px;}
