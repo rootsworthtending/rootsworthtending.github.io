@@ -1,13 +1,16 @@
-// Roots Worth Tending - funding function (v4: basket checkout, per-item refunds,
-// automatic overfill settlement, and the November close)
+// Roots Worth Tending - funding function (v5: basket checkout, per-item refunds,
+// automatic overfill settlement, the November close, and offline gifts)
 // One payment can fund several items. Each payment carries its own itemised
-// breakdown in Stripe metadata, so Stripe stays the only ledger.
+// breakdown in Stripe metadata, so Stripe stays the ledger for card money.
+// Money that arrives outside Stripe - cash in hand, a person-to-person app -
+// is recorded in offline.json beside the catalog and counted into the totals.
 //
 // The item catalog is NOT in this file. It is fetched from the website, so
 // adding an item is a change to items.json and never a redeploy of this Worker.
 
 const SITE = "https://rootsworthtending.com";
 const CATALOG_URL = SITE + "/items.json";
+const OFFLINE_URL = SITE + "/offline.json";
 const MIN_CENTS = 100;
 
 const CORS = {
@@ -51,6 +54,40 @@ async function catalog() {
   if (!items.length) throw new Error("The item list is empty.");
   CATALOG = { at: now, items: items };
   return items;
+}
+
+// --- Offline gifts ---
+// One entry per gift in offline.json: { item, cents, date, note }. The file is
+// committed to the repo, so every entry is public and every change leaves
+// history; the only way to write money is a commit. The Worker only reads.
+// An entry outside the rules is ignored rather than guessed at, and a fetch
+// that fails serves the last good copy so the totals never dip on a hiccup.
+
+let OFFLINE = { at: 0, by: null };
+
+async function offlineBySlug() {
+  const now = Date.now();
+  if (OFFLINE.by && now - OFFLINE.at < 60000) return OFFLINE.by;
+
+  try {
+    const res = await fetch(OFFLINE_URL, { cf: { cacheTtl: 30 } });
+    if (res.ok) {
+      const data = await res.json();
+      const by = {};
+      for (const e of (Array.isArray(data.entries) ? data.entries : [])) {
+        if (!e || typeof e.item !== "string") continue;
+        if (!Number.isInteger(e.cents) || e.cents <= 0 || e.cents > 10000000) continue;
+        by[e.item] = (by[e.item] || 0) + e.cents;
+      }
+      OFFLINE = { at: now, by: by };
+    }
+  } catch (err) {}
+  return OFFLINE.by || {};
+}
+
+function addOffline(raised, offline) {
+  for (const slug of Object.keys(offline)) raised[slug] = (raised[slug] || 0) + offline[slug];
+  return raised;
 }
 
 // --- Stripe REST helpers (fetch only, no SDK) ---
@@ -197,7 +234,7 @@ async function raisedBySlug(env, fresh) {
   const now = Date.now();
   if (!fresh && CACHE.raised && now - CACHE.at < 15000) return CACHE.raised;
 
-  const raised = totalsFrom(await listPayments(env));
+  const raised = addOffline(totalsFrom(await listPayments(env)), await offlineBySlug());
   CACHE = { at: now, raised: raised };
   return raised;
 }
@@ -450,7 +487,9 @@ async function settlePayment(env, piId, dryRun) {
     const a = p.created || 0, b = pi.created || 0;
     return a < b || (a === b && p.id < pi.id);
   });
-  const others = totalsFrom(earlier);
+  // Offline gifts always have a prior claim: they are in hand before any
+  // settlement runs, and they can never be moved by one.
+  const others = addOffline(totalsFrom(earlier), await offlineBySlug());
   const mine = keptOf(pi);
   const flow = await resolveOverflow(env, pi);
 
@@ -513,8 +552,9 @@ async function settlePayment(env, piId, dryRun) {
 // in full, then the next, until the money runs out. Where it runs out is the last
 // item, and it is left unfinished on purpose.
 
-function closePlan(items, payments) {
-  const raised = totalsFrom(payments);
+function closePlan(items, payments, offline) {
+  offline = offline || {};
+  const raised = addOffline(totalsFrom(payments), offline);
   const unfinished = items.filter(function (i) { return (raised[i.slug] || 0) < i.goal; });
 
   const refunds = [];
@@ -529,7 +569,9 @@ function closePlan(items, payments) {
     }
   }
 
-  const targets = unfinished.map(function (i) { return { slug: i.slug, need: i.goal }; });
+  // An offline gift sits on its item and cannot be consolidated, so it
+  // pre-fills that item's target and only the rest is left for card money.
+  const targets = unfinished.map(function (i) { return { slug: i.slug, need: Math.max(0, i.goal - (offline[i.slug] || 0)) }; });
   const moves = [];
   let ti = 0;
   for (const c of pool) {
@@ -600,7 +642,7 @@ async function runClose(env, dryRun) {
 
   const items = await catalog();
   const payments = await listPayments(env);
-  const plan = closePlan(items, payments);
+  const plan = closePlan(items, payments, await offlineBySlug());
 
   const byId = {};
   payments.forEach(function (p) { byId[p.id] = p; });
@@ -643,12 +685,14 @@ export default {
     try {
       if (url.pathname === "/health") {
         const items = await catalog();
+        const off = await offlineBySlug();
         const key = env.STRIPE_SECRET_KEY || "";
         return json({
           ok: true,
-          version: 4,
+          version: 5,
           items: items.length,
           goal: items.reduce(function (s, i) { return s + i.goal; }, 0),
+          offline: Object.keys(off).reduce(function (s, k) { return s + off[k]; }, 0),
           key: key ? key.slice(0, 8) : "MISSING"
         });
       }
@@ -689,7 +733,7 @@ export default {
           payments: payments.length,
           awaitingSettlement: payments.filter(function (p) { return !(p.metadata || {})[SETTLED]; }).length,
           alreadyClosed: payments.filter(function (p) { return (p.metadata || {})[CLOSED]; }).length,
-          close: planSummary(closePlan(items, payments))
+          close: planSummary(closePlan(items, payments, await offlineBySlug()))
         });
       }
 
