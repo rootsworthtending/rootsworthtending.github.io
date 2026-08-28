@@ -22,6 +22,7 @@
     { "slug": "apple",      "goal": 17061, "name": "Apple sauce" },
     { "slug": "energy",     "goal": 34444, "name": "Energy bars" },
     { "slug": "floss",      "goal": 14836, "name": "Floss picks" },
+    { "slug": "electrolyte", "goal": 11025, "name": "Electrolyte sticks" },
     { "slug": "moleskin",   "goal": 51696, "name": "Moleskin blister pads" }
   ]
 }
