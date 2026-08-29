@@ -26,6 +26,7 @@
     { "slug": "pain",       "goal":  7438, "name": "Pain reliever" },
     { "slug": "bandage",    "goal": 14617, "name": "Bandages" },
     { "slug": "ointment",   "goal": 13791, "name": "Antibiotic ointment" },
+    { "slug": "alcohol",    "goal":  2523, "name": "Alcohol wipes" },
     { "slug": "moleskin",   "goal": 51696, "name": "Moleskin blister pads" }
   ]
 }
