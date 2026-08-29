@@ -24,6 +24,7 @@
     { "slug": "floss",      "goal": 14836, "name": "Floss picks" },
     { "slug": "electrolyte", "goal": 11025, "name": "Electrolyte sticks" },
     { "slug": "pain",       "goal":  7438, "name": "Pain reliever" },
+    { "slug": "bandage",    "goal": 14617, "name": "Bandages" },
     { "slug": "moleskin",   "goal": 51696, "name": "Moleskin blister pads" }
   ]
 }
