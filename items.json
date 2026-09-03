@@ -29,6 +29,7 @@
     { "slug": "alcohol",    "goal":  2523, "name": "Alcohol wipes" },
     { "slug": "disposal",   "goal":  6033, "name": "Disposal bags" },
     { "slug": "storage",    "goal": 10252, "name": "Storage bags" },
-    { "slug": "moleskin",   "goal": 51696, "name": "Moleskin blister pads" }
+    { "slug": "moleskin",   "goal": 51696, "name": "Moleskin blister pads" },
+    { "slug": "tote",       "goal":  6822, "name": "Reusable totes" }
   ]
 }
