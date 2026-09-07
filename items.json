@@ -32,6 +32,7 @@
     { "slug": "moleskin",   "goal": 51696, "name": "Moleskin blister pads" },
     { "slug": "tote",       "goal":  6822, "name": "Reusable totes" },
     { "slug": "shirt",      "goal": 48135, "name": "Long sleeve shirts" },
-    { "slug": "gaiter",     "goal": 10598, "name": "Neck gaiters" }
+    { "slug": "gaiter",     "goal": 10598, "name": "Neck gaiters" },
+    { "slug": "flashlight", "goal": 21535, "name": "Flashlights" }
   ]
 }
