@@ -36,6 +36,7 @@
     { "slug": "flashlight", "goal": 21535, "name": "Flashlights" },
     { "slug": "battery",    "goal": 11358, "name": "AAA batteries" },
     { "slug": "whistle",    "goal": 11286, "name": "Whistles" },
-    { "slug": "warmer",     "goal": 15994, "name": "Hand warmers" }
+    { "slug": "warmer",     "goal": 15994, "name": "Hand warmers" },
+    { "slug": "cough",      "goal": 20172, "name": "Cough drops" }
   ]
 }
