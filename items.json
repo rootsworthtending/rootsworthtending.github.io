@@ -35,6 +35,7 @@
     { "slug": "gaiter",     "goal": 10598, "name": "Neck gaiters" },
     { "slug": "flashlight", "goal": 21535, "name": "Flashlights" },
     { "slug": "battery",    "goal": 11358, "name": "AAA batteries" },
-    { "slug": "whistle",    "goal": 11286, "name": "Whistles" }
+    { "slug": "whistle",    "goal": 11286, "name": "Whistles" },
+    { "slug": "warmer",     "goal": 15994, "name": "Hand warmers" }
   ]
 }
