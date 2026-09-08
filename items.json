@@ -39,6 +39,7 @@
     { "slug": "warmer",     "goal": 15994, "name": "Hand warmers" },
     { "slug": "cough",      "goal": 20172, "name": "Cough drops" },
     { "slug": "pen",        "goal":  3876, "name": "Pens" },
-    { "slug": "notebook",   "goal":  9918, "name": "Notebooks" }
+    { "slug": "notebook",   "goal":  9918, "name": "Notebooks" },
+    { "slug": "mini",       "goal":  6458, "name": "Mini notebooks" }
   ]
 }
