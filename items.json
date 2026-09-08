@@ -33,6 +33,7 @@
     { "slug": "tote",       "goal":  6822, "name": "Reusable totes" },
     { "slug": "shirt",      "goal": 48135, "name": "Long sleeve shirts" },
     { "slug": "gaiter",     "goal": 10598, "name": "Neck gaiters" },
-    { "slug": "flashlight", "goal": 21535, "name": "Flashlights" }
+    { "slug": "flashlight", "goal": 21535, "name": "Flashlights" },
+    { "slug": "battery",    "goal": 11358, "name": "AAA batteries" }
   ]
 }
