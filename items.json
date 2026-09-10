@@ -3,7 +3,7 @@
   "bags": 96,
   "items": [
     { "slug": "backpacks",  "goal": 39691, "name": "Backpacks" },
-    { "slug": "socks",      "goal": 41123, "name": "Thermal socks" },
+    { "slug": "socks",      "goal": 41123, "name": "Thermal socks", "fact": "Trench foot needs only about ten hours of wet at temperatures as mild as 55 degrees; a dry foot restarts that count." },
     { "slug": "poncho",     "goal": 36646, "name": "Rain ponchos" },
     { "slug": "beanie",     "goal": 12420, "name": "Beanies" },
     { "slug": "bivvy",      "goal": 25498, "name": "Bivvies" },
