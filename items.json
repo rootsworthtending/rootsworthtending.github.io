@@ -11,7 +11,7 @@
     { "slug": "gloves",     "goal":  9991, "name": "Gloves", "fact": "Warm fingers hold about twice the dexterity of cold ones." },
     { "slug": "antifungal", "goal": 29684, "name": "Antifungal cream", "fact": "A damp foot grows fungus in days; getting rid of it takes a month of treating it." },
     { "slug": "barrier",    "goal": 16832, "name": "Barrier cream" },
-    { "slug": "wipes",      "goal":  9652, "name": "Wet wipes" },
+    { "slug": "wipes",      "goal":  9652, "name": "Wet wipes", "fact": "A moist towel can remove two thirds of dirt and grime in moments where running water is not in reach." },
     { "slug": "toothbrush", "goal":  1390, "name": "Toothbrushes" },
     { "slug": "headcase",   "goal":   823, "name": "Toothbrush cases" },
     { "slug": "toothpaste", "goal":  6655, "name": "Toothpaste" },
