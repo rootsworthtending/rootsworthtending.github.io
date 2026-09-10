@@ -13,7 +13,7 @@
     { "slug": "barrier",    "goal": 16832, "name": "Barrier cream", "fact": "Zinc oxide has been recognized by the FDA as a skin protectant against wind and cold. Reducing skin breakage is one of the only ways to prevent infections." },
     { "slug": "wipes",      "goal":  9652, "name": "Wet wipes", "fact": "A moist towel can remove two thirds of dirt and grime in moments where running water is not in reach." },
     { "slug": "toothbrush", "goal":  1390, "name": "Toothbrushes" },
-    { "slug": "headcase",   "goal":   823, "name": "Toothbrush cases" },
+    { "slug": "headcase",   "goal":   823, "name": "Toothbrush cases", "fact": "Stored anywhere, a barrier keeps dirt off bristles and anything on them off anything important." },
     { "slug": "toothpaste", "goal":  6655, "name": "Toothpaste" },
     { "slug": "lipbalm",    "goal":  6596, "name": "Lip balm" },
     { "slug": "cycle",      "goal": 19560, "name": "Menstrual cycle support" },
