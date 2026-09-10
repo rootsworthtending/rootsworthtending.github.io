@@ -9,7 +9,7 @@
     { "slug": "bivvy",      "goal": 25498, "name": "Bivvies", "fact": "A mylar sack stops about 80 percent of the heat a body radiates during sleep, and one that folds back down and fits back in the backpack makes that true night after night." },
     { "slug": "underwear",  "goal": 31730, "name": "Underwear", "fact": "One of the most asked for items for any care package drive, because a spare pair is the difference between washing and going without." },
     { "slug": "gloves",     "goal":  9991, "name": "Gloves" },
-    { "slug": "antifungal", "goal": 29684, "name": "Antifungal cream" },
+    { "slug": "antifungal", "goal": 29684, "name": "Antifungal cream", "fact": "A damp foot grows fungus in days; getting rid of it takes a month of treating it." },
     { "slug": "barrier",    "goal": 16832, "name": "Barrier cream" },
     { "slug": "wipes",      "goal":  9652, "name": "Wet wipes" },
     { "slug": "toothbrush", "goal":  1390, "name": "Toothbrushes" },
