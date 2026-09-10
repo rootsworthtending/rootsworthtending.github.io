@@ -561,7 +561,7 @@
           var name = document.createElement("b");
           name.textContent = it.name;
           li.appendChild(name);
-          li.appendChild(document.createTextNode(" " + it.fact));
+          li.appendChild(document.createTextNode(": " + it.fact));
           list.appendChild(li);
           shown++;
         });
