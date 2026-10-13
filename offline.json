@@ -1,5 +1,28 @@
 {
   "entries": [
-    { "item": "backpacks", "cents": 10000, "date": "2026-08-27", "note": "cash" }
+    { "item": "backpacks", "cents": 10000, "date": "2026-08-27", "note": "cash" },
+    { "item": "socks", "cents": 1500, "date": "2026-10-13" },
+    { "item": "poncho", "cents": 500, "date": "2026-10-13" },
+    { "item": "beanie", "cents": 1500, "date": "2026-10-13" },
+    { "item": "underwear", "cents": 1000, "date": "2026-10-13" },
+    { "item": "barrier", "cents": 1500, "date": "2026-10-13" },
+    { "item": "wipes", "cents": 500, "date": "2026-10-13" },
+    { "item": "toothbrush", "cents": 500, "date": "2026-10-13" },
+    { "item": "headcase", "cents": 500, "date": "2026-10-13" },
+    { "item": "toothpaste", "cents": 1500, "date": "2026-10-13" },
+    { "item": "lipbalm", "cents": 1500, "date": "2026-10-13" },
+    { "item": "bottle", "cents": 1500, "date": "2026-10-13" },
+    { "item": "peanut", "cents": 500, "date": "2026-10-13" },
+    { "item": "floss", "cents": 1500, "date": "2026-10-13" },
+    { "item": "storage", "cents": 1500, "date": "2026-10-13" },
+    { "item": "moleskin", "cents": 1500, "date": "2026-10-13" },
+    { "item": "shirt", "cents": 500, "date": "2026-10-13" },
+    { "item": "gaiter", "cents": 1500, "date": "2026-10-13" },
+    { "item": "flashlight", "cents": 1000, "date": "2026-10-13" },
+    { "item": "battery", "cents": 1000, "date": "2026-10-13" },
+    { "item": "warmer", "cents": 1000, "date": "2026-10-13" },
+    { "item": "pen", "cents": 1500, "date": "2026-10-13" },
+    { "item": "notebook", "cents": 500, "date": "2026-10-13" },
+    { "item": "mini", "cents": 1000, "date": "2026-10-13" }
   ]
 }
