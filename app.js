@@ -1,6 +1,7 @@
 (function () {
   var API = "https://roots-funding.evercaregreenroots.workers.dev";
   var state = {};
+  var loadedOnce = false;
 
   // A phone. On a keyboard, leaving the pay button costs one Shift+Tab; on a
   // phone, focus sent to the bottom of the page costs a long climb back, so
@@ -299,6 +300,11 @@
   }
 
   function render(data) {
+    loadedOnce = true;
+    var liveNote = document.querySelector("[data-live-note]");
+    if (liveNote) liveNote.textContent = "";
+    var pctLine = document.querySelector("[data-total-pctline]");
+    if (pctLine) pctLine.hidden = false;
     state = {};
     data.items.forEach(function (i) { state[i.slug] = i; });
 
@@ -362,21 +368,56 @@
     var totalFill = document.querySelector("[data-total-fill]");
     if (totalFill) totalFill.style.width = totalPct + "%";
     var totalBar = document.querySelector("[data-total-bar]");
-    if (totalBar) totalBar.setAttribute("aria-valuenow", totalPct);
+    if (totalBar) {
+      totalBar.setAttribute("aria-valuenow", totalPct);
+      totalBar.removeAttribute("aria-valuetext");
+    }
     var totalPctEl = document.querySelector("[data-total-pct]");
     if (totalPctEl) totalPctEl.textContent = totalPct;
 
     updateBasket();
   }
 
+  // Until the live totals arrive, the page shows no numbers of its own: a
+  // built-in "$0.00" or "0% funded" reads as a campaign nobody has given to.
+  // Each item and the totals say Loading, and if the first load fails they
+  // say Not loading instead. Once real numbers have shown, a later failed
+  // refresh leaves them in place.
+  function markItems(word) {
+    itemsOnPage().forEach(function (art) {
+      var pctEl = art.querySelector(".pct");
+      var restEl = art.querySelector(".rest");
+      var label = art.querySelector(".meter-label");
+      if (pctEl) pctEl.textContent = word;
+      if (restEl) restEl.textContent = "";
+      if (label) {
+        label.removeAttribute("aria-valuenow");
+        label.setAttribute("aria-valuetext", word);
+      }
+    });
+    var bar = document.querySelector("[data-total-bar]");
+    if (bar) {
+      bar.removeAttribute("aria-valuenow");
+      bar.setAttribute("aria-valuetext", word);
+    }
+  }
+
+  function markFailed() {
+    if (loadedOnce) return;
+    markItems("Live total not loading");
+    var raised = document.querySelector("[data-total-raised]");
+    if (raised) raised.textContent = "Not loading";
+    var fundedEl = document.querySelector("[data-items-funded]");
+    if (fundedEl) fundedEl.textContent = "Not loading";
+    var note = document.querySelector("[data-live-note]");
+    if (note) note.textContent = "Couldn't load the live totals. Refresh the page to try again.";
+  }
+
   function load() {
     return fetch(API + "/totals", { cache: "no-store" })
       .then(function (r) { return r.json(); })
-      .then(function (d) { if (d && d.items) render(d); })
-      .catch(function () {
-        var note = document.querySelector("[data-live-note]");
-        if (note) note.textContent = "Live totals are not loading right now. The prices below are still correct.";
-      });
+      .then(function (d) { if (d && d.items) render(d); else markFailed(); })
+      .catch(markFailed);
   }
 
   function barSay(msg) {
@@ -571,6 +612,7 @@
       .catch(function () {});
   }
 
+  markItems("Loading…");
   buildFields();
   buildGeneral();
   var payBtn = document.getElementById("basket-pay");
