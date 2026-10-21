@@ -23,6 +23,7 @@
     { "item": "warmer", "cents": 1000, "date": "2026-10-13" },
     { "item": "pen", "cents": 1500, "date": "2026-10-13" },
     { "item": "notebook", "cents": 500, "date": "2026-10-13" },
-    { "item": "mini", "cents": 1000, "date": "2026-10-13" }
+    { "item": "mini", "cents": 1000, "date": "2026-10-13" },
+    { "item": "backpacks", "cents": 5000, "date": "2026-10-21", "note": "venmo" }
   ]
 }
