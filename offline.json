@@ -27,6 +27,7 @@
     { "item": "backpacks", "cents": 5000, "date": "2026-10-21", "note": "venmo" },
     { "item": "backpacks", "cents": 2500, "date": "2026-10-21", "note": "venmo" },
     { "item": "backpacks", "cents": 5000, "date": "2026-10-21", "note": "venmo" },
-    { "item": "backpacks", "cents": 1000, "date": "2026-10-21", "note": "venmo" }
+    { "item": "backpacks", "cents": 1000, "date": "2026-10-21", "note": "venmo" },
+    { "item": "backpacks", "cents": 500, "date": "2026-10-21", "note": "venmo" }
   ]
 }
