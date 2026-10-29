@@ -40,6 +40,7 @@
     { "item": "poncho", "cents": 2000, "date": "2026-10-27", "note": "cash" },
     { "item": "poncho", "cents": 2000, "date": "2026-10-28", "note": "cash" },
     { "item": "poncho", "cents": 1000, "date": "2026-10-28", "note": "cash" },
-    { "item": "poncho", "cents": 500, "date": "2026-10-28", "note": "cash" }
+    { "item": "poncho", "cents": 500, "date": "2026-10-28", "note": "cash" },
+    { "item": "poncho", "cents": 10000, "date": "2026-10-29", "note": "venmo" }
   ]
 }
