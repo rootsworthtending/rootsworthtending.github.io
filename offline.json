@@ -42,6 +42,13 @@
     { "item": "poncho", "cents": 1000, "date": "2026-10-28", "note": "cash" },
     { "item": "poncho", "cents": 500, "date": "2026-10-28", "note": "cash" },
     { "item": "poncho", "cents": 10000, "date": "2026-10-29", "note": "venmo" },
-    { "item": "poncho", "cents": 1000, "date": "2026-10-29", "note": "venmo" }
+    { "item": "poncho", "cents": 1000, "date": "2026-10-29", "note": "venmo" },
+    { "item": "beanie", "cents": 4710, "date": "2026-11-01", "note": "bag shrink roll over" },
+    { "item": "bivvy", "cents": 10749, "date": "2026-11-01", "note": "bag shrink roll over" },
+    { "item": "underwear", "cents": 14865, "date": "2026-11-01", "note": "bag shrink roll over" },
+    { "item": "antifungal", "cents": 14842, "date": "2026-11-01", "note": "bag shrink roll over" },
+    { "item": "barrier", "cents": 6916, "date": "2026-11-01", "note": "bag shrink roll over" },
+    { "item": "wipes", "cents": 4326, "date": "2026-11-01", "note": "bag shrink roll over" },
+    { "item": "toothpaste", "cents": 505, "date": "2026-11-01", "note": "bag shrink roll over" }
   ]
 }
