@@ -49,6 +49,23 @@
     { "item": "antifungal", "cents": 14842, "date": "2026-11-01", "note": "bag shrink roll over" },
     { "item": "barrier", "cents": 6916, "date": "2026-11-01", "note": "bag shrink roll over" },
     { "item": "wipes", "cents": 4326, "date": "2026-11-01", "note": "bag shrink roll over" },
-    { "item": "toothpaste", "cents": 505, "date": "2026-11-01", "note": "bag shrink roll over" }
+    { "item": "toothpaste", "cents": 505, "date": "2026-11-01", "note": "bag shrink roll over" },
+    { "item": "toothbrush", "cents": 473, "date": "2026-11-03", "note": "bag shrink roll over" },
+    { "item": "lipbalm", "cents": 106, "date": "2026-11-03", "note": "bag shrink roll over" },
+    { "item": "bottle", "cents": 5357, "date": "2026-11-03", "note": "bag shrink roll over" },
+    { "item": "peanut", "cents": 1992, "date": "2026-11-03", "note": "bag shrink roll over" },
+    { "item": "apple", "cents": 3540, "date": "2026-11-03", "note": "bag shrink roll over" },
+    { "item": "energy", "cents": 6371, "date": "2026-11-03", "note": "bag shrink roll over" },
+    { "item": "floss", "cents": 1263, "date": "2026-11-03", "note": "bag shrink roll over" },
+    { "item": "electrolyte", "cents": 3214, "date": "2026-11-03", "note": "bag shrink roll over" },
+    { "item": "pain", "cents": 1883, "date": "2026-11-03", "note": "bag shrink roll over" },
+    { "item": "bandage", "cents": 2708, "date": "2026-11-03", "note": "bag shrink roll over" },
+    { "item": "ointment", "cents": 3158, "date": "2026-11-03", "note": "bag shrink roll over" },
+    { "item": "alcohol", "cents": 319, "date": "2026-11-03", "note": "bag shrink roll over" },
+    { "item": "disposal", "cents": 4057, "date": "2026-11-03", "note": "bag shrink roll over" },
+    { "item": "storage", "cents": 1653, "date": "2026-11-03", "note": "bag shrink roll over" },
+    { "item": "moleskin", "cents": 10544, "date": "2026-11-03", "note": "bag shrink roll over" },
+    { "item": "tote", "cents": 3558, "date": "2026-11-03", "note": "bag shrink roll over" },
+    { "item": "shirt", "cents": 14752, "date": "2026-11-03", "note": "bag shrink roll over" }
   ]
 }
