@@ -66,6 +66,8 @@
     { "item": "storage", "cents": 1653, "date": "2026-11-03", "note": "bag shrink roll over" },
     { "item": "moleskin", "cents": 10544, "date": "2026-11-03", "note": "bag shrink roll over" },
     { "item": "tote", "cents": 3558, "date": "2026-11-03", "note": "bag shrink roll over" },
-    { "item": "shirt", "cents": 14752, "date": "2026-11-03", "note": "bag shrink roll over" }
-  ]
+    { "item": "shirt", "cents": 14752, "date": "2026-11-03", "note": "bag shrink roll over" },
+{ "item": "shirt", "cents": 3215, "date": "2026-11-03", "note": "venmo" },
+{ "item": "gaiter", "cents": 1785, "date": "2026-11-03", "note": "venmo" }
+]
 }
